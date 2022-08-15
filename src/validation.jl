@@ -19,7 +19,7 @@ Y = reshape([yi for _ in x for yi in y],(length(x),length(y)))
 ## Data
 filename = "./data/GROUND_TRUTH"
 
-batches = 11:14
+batches = 81:100
 BS = length(batches)
 nx = length(x)
 ny = length(y)
@@ -40,9 +40,9 @@ end
 ypredict = model(xdata)
 
 # Validation
-for i=1:4
-    p1 = heatmap(x,y,ypredict[1,:,:,i],title="FNO model")
-    p2 = heatmap(x,y,ydata[1,:,:,i],title="Original")
-    display(plot(p1,p2,layout=(2,1),legend=false))
+for i=1:20
+    p1 = heatmap(x,y,ypredict[1,:,:,i],title="FNO model");
+    p2 = heatmap(x,y,ydata[1,:,:,i],title="Original");
+    plot(p1,p2,layout=(2,1),legend=false);
     savefig("validation/$(i).png")
 end 
