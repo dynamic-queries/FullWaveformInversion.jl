@@ -23,7 +23,7 @@ BS = 10
 nx = length(x)
 ny = length(y)
 np = length(p)
-filename = "/home/dynamic-queries/.julia/dev/InverseProblems.jl/data/GROUND_TRUTH"
+filename = "./data/GROUND_TRUTH"
 xdata = Array{Float64,4}(undef,BS,nx,ny,np+2)
 ydata = Array{Float64,4}(undef,BS,nx,ny,1)
 
@@ -39,6 +39,7 @@ for (i,label) in enumerate(b)
 
 end 
 
+print("Data Read ! \n")
 
 xdata = permutedims(xdata,(4,2,3,1))
 ydata = permutedims(ydata,(4,2,3,1))
@@ -66,8 +67,10 @@ model = Chain(
 learning_rate=1e-3
 nepochs = 100
 opt = Flux.ADAM(learning_rate)
-loss(x,y) = l₂loss
+lossfunction = l₂loss
 data = (train_loader,test_loader)
 
-learner = Learner(model,data,opt,loss,Checkpointer(joinpath(@__DIR__,"checkpoints")))
+print("Training model... \n")
+
+learner = Learner(model,data,opt,lossfunction,Checkpointer(joinpath(@__DIR__,"ts_checkpoints")))
 fit!(learner,100)

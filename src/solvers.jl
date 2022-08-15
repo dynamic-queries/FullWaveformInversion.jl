@@ -8,7 +8,7 @@ function solver(nx::Int,ny::Int,::TwoD)
     ymax = 1.0
     tmin = 0.0 # duh! 
     temit = 100.0
-    tsense = 1e3
+    tsense = 1.25e3
     tsim = temit + tsense
     c = 2e-3
     nsensors = 10
