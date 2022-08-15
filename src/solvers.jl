@@ -1,6 +1,6 @@
 include("utils.jl")
 
-function solver(nx::Int,ny::Int,::TwoD)
+function solver(nx::Int,ny::Int,::TwoD,boundary=nothing)
     # Parameters 
     xmin = 0.0
     xmax = 1.0 
@@ -40,12 +40,12 @@ function solver(nx::Int,ny::Int,::TwoD)
     v[end-1,:] .= v[end,:] 
 
     # Bit Array for the boundary
-    # Generate a spline in space
-    s = spline()
-
-    # Mask boundary 
-    boundary = mask_boundary(nx,ny,s)
-
+    if isnothing(boundary)
+        # Generate a spline in space
+        s = spline()
+        # Mask boundary 
+        boundary = mask_boundary(nx,ny,s)
+    end
     # Compute the source term 
     amplitudes = 1e-5*ones(Float64,nsensors)
     deviations = ones(Float64,nsensors)
@@ -148,5 +148,5 @@ function solver(nx::Int,ny::Int,::TwoD)
     u = reshape(sol2[1:n,:],(nx,ny,:))
     v = reshape(sol2[n+1:end,:],(nx,ny,:))
     
-    (xsensors,nx,ny),u
+    (xsensors,nx,ny),reshape(boundary,(nx,ny)),u
 end 

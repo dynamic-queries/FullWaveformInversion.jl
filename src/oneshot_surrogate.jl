@@ -27,6 +27,7 @@ ny = length(y)
 xdata = Array{Float64,4}(undef,3,nx,ny,BS)
 ydata = Array{Float64,4}(undef,1,nx,ny,BS)
 
+# One shot training.
 for (i,b) in enumerate(batches)
     file = h5open(string(filename,b),"r")
     xdata[1,:,:,i] .= read(file["1"])
