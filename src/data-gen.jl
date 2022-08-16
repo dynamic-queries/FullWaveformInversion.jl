@@ -8,15 +8,19 @@ function generate_data(nx::Int,ny::Int,N::Int)
     print("Generating data ...\n")
     
     solutions = []
+    boundaries = []
     sensordata,boundary,sol = solver(nx,ny,TwoD())
     push!(solutions,sol)
-    
+    push!(boundaries,boundary)
+
     pro = Progress(N,1)
     for i=2:N
-        push!(solutions,solver(nx,ny,TwoD())[2])
+        _,b,s = solver(nx,ny,TwoD())
+        push!(boundaries,b)
+        push!(solutions,s)
         next!(pro)
     end 
-    sensordata,boundary,solutions
+    sensordata,boundaries,solutions
 end 
 
 """ 
@@ -41,12 +45,11 @@ end
     Output : NIL
     Implicit Output : HDF5 file with boundary as a bit vector and the input to the main simulation.
 """ 
-function boundary_extraction(boundary::Matrix,solutions::Vector,filename::String)
+function boundary_extraction(boundaries::Vector,solutions::Vector,filename::String)
     file = h5open(filename,"w")
-    file["boundary"] = boundary
-    j = 1
     for (i,solution) in enumerate(solutions)
-        file["$(i)"] = Matrix(solution[:,:,j])
+        file["b$(i)"] = Array(boundaries[i])
+        file["$(i)"] = Matrix(solution[:,:,1])
     end 
     close(file)
 end 
