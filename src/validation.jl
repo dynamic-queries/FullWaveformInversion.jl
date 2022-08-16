@@ -17,7 +17,7 @@ X = reshape([xi for xi in x for _ in y],(length(x),length(y)))
 Y = reshape([yi for _ in x for yi in y],(length(x),length(y)))
 
 ## Data
-filename = "./data/GROUND_TRUTH"
+filename = "./data/archive/GROUND_TRUTH"
 
 batches = 81:100
 BS = length(batches)
@@ -35,7 +35,7 @@ for (i,b) in enumerate(batches)
     ydata[1,:,:,i] .= read(file["100"])
 end     
 
-@load "src/os_checkpoints/checkpoint_epoch_139_loss_0.10179136244195063.bson" model 
+@load "src/os_checkpoints/checkpoint_epoch_035_loss_0.08063310637318366.bson" model 
 
 ypredict = model(xdata)
 
