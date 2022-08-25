@@ -33,7 +33,7 @@ for (i,b) in enumerate(batches)
     xdata[1,:,:,i] .= read(file["1"])
     xdata[2,:,:,i] .= X 
     xdata[3,:,:,i] .= Y
-    ydata[1,:,:,i] .= read(file["100"])
+    ydata[1,:,:,i] .= read(file["501"])
 end     
 
 print("Read Data...\n")
@@ -47,18 +47,18 @@ test_loader = Flux.DataLoader(test,batchsize=1,shuffle=false)
 nmodes = 8
 DL = 16
  
-# model = Chain(
-#         Dense(3,DL),
-#         OperatorKernel(DL=>DL, (nmodes,nmodes), FourierTransform, gelu),
-#         OperatorKernel(DL=>DL, (nmodes,nmodes), FourierTransform, gelu),
-#         OperatorKernel(DL=>DL, (nmodes,nmodes), FourierTransform, gelu),
-#         OperatorKernel(DL=>DL, (nmodes,nmodes), FourierTransform, gelu),
-#         Dense(DL,DL),
-#         Dense(DL,1)
-# )
+model = Chain(
+        Dense(3,DL),
+        OperatorKernel(DL=>DL, (nmodes,nmodes), FourierTransform, gelu),
+        OperatorKernel(DL=>DL, (nmodes,nmodes), FourierTransform, gelu),
+        OperatorKernel(DL=>DL, (nmodes,nmodes), FourierTransform, gelu),
+        OperatorKernel(DL=>DL, (nmodes,nmodes), FourierTransform, gelu),
+        Dense(DL,DL),
+        Dense(DL,1)
+)
 
 
-@load "src/os_checkpoints/checkpoint_epoch_038_loss_0.08857638614958036.bson" model
+# @load "src/os_checkpoints/checkpoint_epoch_038_loss_0.08857638614958036.bson" model
 
 # Optimizer params
 lossfunction = l₂loss
@@ -66,14 +66,14 @@ data = (train_loader,test_loader)
 
 print("Training model... \n")
 
-# learning_rate=1e-2
-# nepochs = 30
-# opt = Flux.ADAM(learning_rate)
-# learner = Learner(model,data,opt,lossfunction,Checkpointer(joinpath(@__DIR__,"os_checkpoints")))
-# fit!(learner,nepochs)
+learning_rate=1e-2
+nepochs = 30
+opt = Flux.ADAM(learning_rate)
+learner = Learner(model,data,opt,lossfunction,Checkpointer(joinpath(@__DIR__,"os_checkpoints")))
+fit!(learner,nepochs)
 
 learning_rate=1e-3
-nepochs = 100
+nepochs = 200
 opt = Flux.ADAM(learning_rate)
 learner = Learner(model,data,opt,lossfunction,Checkpointer(joinpath(@__DIR__,"os_checkpoints")))
 fit!(learner,nepochs)

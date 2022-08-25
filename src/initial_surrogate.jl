@@ -2,12 +2,13 @@ using NeuralOperators
 using Flux
 using FluxTraining
 using BSON
+using HDF5
 
 filename = "data/static/BOUNDARY"
 file = h5open(filename)
 
-x = 0.0:(1.0)/20:1.0
-y = 0.0:(1.0)/20:1.0
+x = 0.0:(1.0)/200:1.0
+y = 0.0:(1.0)/200:1.0
 nx,ny = length(x),length(y)
 X = reshape([xi for xi in x for _ in y],(nx,ny))
 Y = reshape([yi for _ in x for yi in y],(nx,ny))
@@ -52,7 +53,7 @@ data = (train_loader,test_loader)
 print("Training model... \n")
 
 learning_rate=1e-2
-nepochs = 30
+nepochs = 60
 opt = Flux.ADAM(learning_rate)
 learner = Learner(model,data,opt,lossfunction,Checkpointer(joinpath(@__DIR__,"is_checkpoints")))
 fit!(learner,nepochs)
