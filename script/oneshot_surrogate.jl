@@ -17,7 +17,7 @@ X = reshape([xi for xi in x for _ in y],(length(x),length(y)))
 Y = reshape([yi for _ in x for yi in y],(length(x),length(y)))
 
 ## Data
-filename = "./data/archive/GROUND_TRUTH"
+filename = "data/archive/GROUND_TRUTH"
 
 batches = 1:80
 BS = length(batches)
@@ -57,9 +57,6 @@ model = Chain(
         Dense(DL,1)
 )
 
-
-# @load "src/os_checkpoints/checkpoint_epoch_038_loss_0.08857638614958036.bson" model
-
 # Optimizer params
 lossfunction = l₂loss
 data = (train_loader,test_loader)
@@ -73,7 +70,7 @@ learner = Learner(model,data,opt,lossfunction,Checkpointer(joinpath(@__DIR__,"os
 fit!(learner,nepochs)
 
 learning_rate=1e-3
-nepochs = 200
+nepochs = 250
 opt = Flux.ADAM(learning_rate)
 learner = Learner(model,data,opt,lossfunction,Checkpointer(joinpath(@__DIR__,"os_checkpoints")))
 fit!(learner,nepochs)
