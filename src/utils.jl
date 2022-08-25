@@ -136,14 +136,3 @@ function sample_sensor_reading(ufield,xsensor,Nx,Ny)
     end 
     samples
 end 
-
-""" 
-    Input : 
-        x - 
-        y - 
-    Output: 
-        
-""" 
-function matricize(x::StepRangeLen,y::StepRangeLen)
-
-end 

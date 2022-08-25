@@ -150,3 +150,8 @@ function solver(nx::Int,ny::Int,::TwoD,boundary=nothing)
     
     (xsensors,nx,ny),reshape(boundary,(nx,ny)),u
 end 
+
+function regularizer_N_input(u::Array,xsensor,nx,ny)
+    u = reshape(u,(nx*ny,:))
+    sample_sensor_reading(u,xsensor,nx,ny)
+end 
