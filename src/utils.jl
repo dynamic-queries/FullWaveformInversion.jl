@@ -8,6 +8,9 @@ using ProgressMeter
 using HDF5
 using NeuralOperators
 
+using Random
+using Flux
+
 abstract type Dimension end 
 struct OneD <: Dimension end 
 struct TwoD <: Dimension end 
@@ -136,3 +139,34 @@ function sample_sensor_reading(ufield,xsensor,Nx,Ny)
     end 
     samples
 end 
+
+
+function add_noise(measurements, mean=0, std=0.001) 
+    sensor_number, time_steps = size(measurements)
+    distribution = Normal(mean, std)
+    Random.seed!(123)
+    noise = rand(distribution, (sensor_number, time_steps))
+    noise + measurements
+end
+
+function model(A, nx=200, ny=200)
+    # Solve problem
+    (xsensors,_,_),boundary,u = solver(nx,ny,TwoD(),A)
+
+    # Get the input matrix for the reg. network.
+    # Note : M \in  \Re^{nsensors,nt}
+    input_reg = regularizer_N_input(u,xsensors,nx+1,ny+1)
+    input_reg
+end
+
+function crack_initialization(nx=200, ny=200)
+    s = spline()
+    A = BitMatrix(undef,nx+1,ny+1)
+    A .= 0
+    spline2obstacle!(A,s)
+    A 
+end
+
+function MSEloss(y, ŷ)
+    Flux.losses.mse(y, ŷ)
+end
