@@ -9,8 +9,8 @@ using CUDA
 CUDA.allowscalar(false)
 
 # FluxOpt Tools upgrade to Complex weights
-Base.zeros(grads::Zygote.Grads) = zeros(ComplexF64,veclength(grads))
-Base.zeros(pars::Flux.Params) = zeros(ComplexF64,veclength(pars))
+Base.zeros(grads::Zygote.Grads) = CUDA.zeros(ComplexF64,veclength(grads))
+Base.zeros(pars::Flux.Params) = CUDA.zeros(ComplexF64,veclength(pars))
 
 
 function fill_param_dict!(dict, m, prefix)
@@ -29,9 +29,10 @@ function fill_param_dict!(dict, m, prefix)
     end
 end
 
-function callback(losses,model,epoch,foldername)
+function callback(losses,model,epoch,foldername,logger)
     # Checkpoint
-    BSON.@save string(foldername,"Epoch_$(epoch)_TrainLoss_$(losses[1])") model
+    modeltemp = model |> cpu
+    BSON.@save string(foldername,"Epoch_$(epoch)_TrainLoss_$(losses[1])") modeltemp 
     
     # Log on Tensorboard
     dict = Dict{String,Any}()
@@ -45,7 +46,7 @@ function callback(losses,model,epoch,foldername)
     println("Training Loss = $(losses[1]) \t Testing Loss = $(losses[2])\n")
 end 
 
-function train(model,loss,data,opt,epoch)
+function train(model,loss,data,opt,epoch,foldername,logger)
     trainloader,testloader = data
     local trainloss = 0.0
     local trainagg = 0.0
@@ -77,13 +78,13 @@ function train(model,loss,data,opt,epoch)
 
     losses = (trainagg,testagg)    
     if mod(epoch,1) == 0
-        callback(losses,model,epoch,foldername)
+        callback(losses,model,epoch,foldername,logger)
     end 
 end 
 
-function learn(model,loss,data,opt,nepochs,foldername)
+function learn(model,loss,data,opt,nepochs,foldername,logger)
     for epoch in 1:nepochs
         printstyled("\nEpoch $(epoch)\n";color=:blue)
-        train(model,loss,data,opt,epoch)
+        train(model,loss,data,opt,epoch,foldername,logger)
     end 
 end 

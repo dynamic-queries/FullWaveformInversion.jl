@@ -52,14 +52,26 @@ data = (train_loader,test_loader)
 
 print("Training model... \n")
 
-learning_rate=1e-2
-nepochs = 60
-opt = Flux.ADAM(learning_rate)
-learner = Learner(model,data,opt,lossfunction,Checkpointer(joinpath(@__DIR__,"is_checkpoints")))
-fit!(learner,nepochs)
+# Optimizer params
+lossfunction = l₂loss
+data = (train_loader,test_loader)
+foldername = "weights/is/"
 
-learning_rate=1e-3
+if !isdir(foldername)
+    mkdir(foldername)
+end 
+
+print("Training model... \n")
+
+model = gpu(model)
+logger = TBLogger("script/logs/is/110_epochs/")
+
+lr = 1e-2
+nepochs = 10
+opt = Flux.Adam(lr)
+learn(model,lossfunction,data,opt,nepochs,foldername,logger)
+
+lr = 1e-3
 nepochs = 100
-opt = Flux.ADAM(learning_rate)
-learner = Learner(model,data,opt,lossfunction,Checkpointer(joinpath(@__DIR__,"is_checkpoints")))
-fit!(learner,nepochs)
+opt = Flux.Adam(lr)
+learn(model,lossfunction,data,opt,nepochs,foldername,logger)
