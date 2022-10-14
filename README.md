@@ -1,5 +1,5 @@
-# InverseProblems.jl
-Julia Repository for DL-Driven solutions to Inverse Problems
+# Full-Waveform-Inversion.jl
+Application for full wave form inversion using Neural Operators and Adversarial Neural Networks.
 
 ## Logistics
 
