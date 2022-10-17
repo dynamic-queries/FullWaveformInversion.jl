@@ -11,7 +11,7 @@ include("../../src/train.jl")
 device = gpu
 CUDA.allowscalar(false)
 
-K = 150
+K = 57:250
 for k in K
     # We know apriori that the problem was solved in the domain.
     # x ∈ [0,1]
@@ -25,9 +25,9 @@ for k in K
     Y = reshape([yi for _ in x for yi in y],(length(x),length(y)))
 
     ## Data
-    filename = "big_data/dynamic/GROUND_TRUTH"
+    filename = "/tmp/ge96gak/consolidated_data/dynamic/GROUND_TRUTH"
 
-    batches = 1:180
+    batches = 1:745
     BS = length(batches)
     nx = length(x)
     ny = length(y)
@@ -45,7 +45,6 @@ for k in K
     end     
 
     print("Read Data...\n")
-
     # DataLoader
     traind,testd = splitobs((xdata,ydata),at=0.9)
     train_loader = Flux.DataLoader(traind,batchsize=2,shuffle=true)
@@ -53,7 +52,7 @@ for k in K
 
     # Model
     nmodes = 12
-    DL = 32
+    DL = 16
     
     model = Chain(
             Dense(3,DL),
@@ -77,18 +76,22 @@ for k in K
     print("Training model... \n")
 
     model = gpu(model)
-    logger = TBLogger("script/logs/510_epochs/$(k)")
+    logger = TBLogger("script/logs/os/$(k)/")
 
     lr = 1e-2
-    nepochs = 10
+    nepochs = 30
     opt = Flux.Adam(lr)
     learn(model,lossfunction,data,opt,nepochs,foldername,logger)
 
     lr = 1e-3
-    nepochs = 25
+    nepochs = 100
     opt = Flux.Adam(lr)
     learn(model,lossfunction,data,opt,nepochs,foldername,logger)
 
+    lr = 1e-4
+    nepochs = 100
+    opt = Flux.Adam(lr)
+    learn(model,lossfunction,data,opt,nepochs,foldername,logger)
 
     # # BGFS needs to run on a smaller dataset
     # for iter=1:1

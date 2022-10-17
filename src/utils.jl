@@ -7,6 +7,7 @@ using OrdinaryDiffEq
 using ProgressMeter
 using HDF5
 using NeuralOperators
+using MPI
 
 abstract type Dimension end 
 struct OneD <: Dimension end 
