@@ -1,12 +1,4 @@
-using NeuralOperators
-using Flux
-using Flux:splitobs 
-using FluxOptTools
-using BSON: @load
-using HDF5
-using CUDA
-using Zygote
-include("../../src/train.jl")
+using FullWaveformInversion
 
 device = gpu
 CUDA.allowscalar(false)

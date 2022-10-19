@@ -1,10 +1,4 @@
-using NeuralOperators
-using Flux
-using FluxTraining
-using HDF5
-using BSON
-include("../src/train.jl")
-
+using FullWaveformInversion
 
 # We use a Markov Neural Operator
 # Meaning 

@@ -1,13 +1,3 @@
-using Flux
-using FluxOptTools
-using Optim
-using TensorBoardLogger
-using ProgressMeter
-using Zygote
-using BSON
-using CUDA
-CUDA.allowscalar(false)
-
 # FluxOpt Tools upgrade to Complex weights
 Base.zeros(grads::Zygote.Grads) = CUDA.zeros(ComplexF64,veclength(grads))
 Base.zeros(pars::Flux.Params) = CUDA.zeros(ComplexF64,veclength(pars))

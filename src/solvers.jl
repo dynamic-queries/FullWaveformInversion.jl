@@ -1,5 +1,3 @@
-include("utils.jl")
-
 function solver(nx::Int,ny::Int,::TwoD,boundary=nothing)
     # Parameters 
     xmin = 0.0

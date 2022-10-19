@@ -1,9 +1,4 @@
-using NeuralOperators
-using Flux
-using FluxTraining
-using BSON
-using HDF5
-include("../../src/train.jl")
+using FullWaveformInversion
 
 filename = "/tmp/ge96gak/consolidated_data/static/BOUNDARY"
 file = h5open(filename)

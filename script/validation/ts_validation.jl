@@ -1,9 +1,4 @@
-using BSON: @load
-using NeuralOperators
-using LinearAlgebra
-using Plots
-using Flux
-using HDF5
+using FullWaveformInversion
 
 dir = "script/ts_checkpoints/"
 filename = readdir(dir)[end]

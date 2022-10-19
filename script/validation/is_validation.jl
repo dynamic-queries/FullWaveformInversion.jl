@@ -1,9 +1,4 @@
-using NeuralOperators
-using Flux
-using Plots
-using BSON:@load
-using HDF5
-using CUDA
+using FullWaveformInversion
 
 filename = "/tmp/ge96gak/consolidated_data/static/BOUNDARY"
 file = h5open(filename,"r")

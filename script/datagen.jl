@@ -1,4 +1,4 @@
-include("../src/data-gen.jl")
+using FullWaveformInversion
 
 MPI.Init()
 comm = MPI.COMM_WORLD

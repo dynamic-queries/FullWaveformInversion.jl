@@ -1,8 +1,3 @@
-using NeuralOperators
-using BSON
-using BSON : @load
-include("utils.jl")
-
 # Filenames of models
 isfilename = "src/is_checkpoints/checkpoint_epoch_030_loss_0.04952367390419685.bson"
 osfilename = "src/os_checkpoints/checkpoint_epoch_035_loss_0.08063310637318366.bson"

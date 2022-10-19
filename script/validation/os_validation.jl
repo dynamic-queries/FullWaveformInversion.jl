@@ -1,10 +1,4 @@
-using Flux
-using Flux:splitobs 
-using BSON: @load
-using HDF5
-using NeuralOperators
-using Plots
-using CUDA
+using FullWaveformInversion
 
 # We know apriori that the problem was solved in the domain.
 # x ∈ [0,1]

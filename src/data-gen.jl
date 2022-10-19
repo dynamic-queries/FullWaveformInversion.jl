@@ -1,5 +1,3 @@
-include("solvers.jl")
-
 """
     Input : Number of instances of the problem that we want to solve.
     Output : Vector of Arrays.
