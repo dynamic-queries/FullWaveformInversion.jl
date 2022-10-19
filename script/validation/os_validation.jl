@@ -1,4 +1,9 @@
+using HDF5 
+using NeuralOperators
 using FullWaveformInversion
+using Flux
+using FullWaveformInversion:learn
+using TensorBoardLogger
 
 # We know apriori that the problem was solved in the domain.
 # x ∈ [0,1]

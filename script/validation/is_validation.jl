@@ -1,4 +1,9 @@
+using HDF5 
+using NeuralOperators
 using FullWaveformInversion
+using Flux
+using FullWaveformInversion:learn
+using TensorBoardLogger
 
 filename = "/tmp/ge96gak/consolidated_data/static/BOUNDARY"
 file = h5open(filename,"r")

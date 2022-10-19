@@ -1,4 +1,9 @@
+using HDF5 
+using NeuralOperators
 using FullWaveformInversion
+using Flux
+using FullWaveformInversion:learn
+using TensorBoardLogger
 
 device = gpu
 CUDA.allowscalar(false)
