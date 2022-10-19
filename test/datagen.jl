@@ -1,5 +1,4 @@
-# Mother of all scripts
-include("../src/data-gen.jl")
+using FullWaveformInversion
 
 # Get one simulation instance
 nx = 20

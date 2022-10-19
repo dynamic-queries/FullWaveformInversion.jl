@@ -1,7 +1,4 @@
-using LinearAlgebra
-using Distributions
-using Plots
-include("../src/utils.jl")
+using FullWaveformInversion
 
 begin
     nx = 100

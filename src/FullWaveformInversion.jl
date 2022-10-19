@@ -17,7 +17,7 @@ using Zygote
 using CUDA
 using NeuralOperators
 using BSON
-using BSON : @load
+using BSON:@load
 CUDA.allowscalar(false)
 
 abstract type Dimension end 

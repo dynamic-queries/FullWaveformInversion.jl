@@ -1,4 +1,4 @@
-include("../src/solvers.jl")
+using FullWaveformInversion
 
 # Define boundary extents
 nx = 200
