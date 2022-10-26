@@ -4,6 +4,7 @@ using Interpolations
 using LinearAlgebra
 using Distributions
 using SparseArrays
+using LinearAlgebra
 using Plots
 using OrdinaryDiffEq 
 using HDF5
@@ -28,7 +29,11 @@ include("utils.jl")
 include("solvers.jl")
 include("data-gen.jl")
 include("train.jl")
-include("surrogate.jl")
+include("fno.jl")
+include("gar.jl")
 include("optimization.jl")
+
+export surrogate, sample, timeseries
+export DefectReconstructionProblem, solve, __solve
 
 end 

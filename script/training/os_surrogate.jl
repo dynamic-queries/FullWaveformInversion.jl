@@ -4,11 +4,12 @@ using FullWaveformInversion
 using Flux
 using FullWaveformInversion:learn
 using TensorBoardLogger
+using CUDA
 
 device = gpu
 CUDA.allowscalar(false)
 
-K = 57:250
+K = 1:10
 for k in K
     # We know apriori that the problem was solved in the domain.
     # x ∈ [0,1]
@@ -43,7 +44,7 @@ for k in K
 
     print("Read Data...\n")
     # DataLoader
-    traind,testd = splitobs((xdata,ydata),at=0.9)
+    traind,testd = Flux.splitobs((xdata,ydata),at=0.9)
     train_loader = Flux.DataLoader(traind,batchsize=2,shuffle=true)
     test_loader = Flux.DataLoader(testd,batchsize=1,shuffle=false)
 
@@ -53,6 +54,8 @@ for k in K
     
     model = Chain(
             Dense(3,DL),
+            OperatorKernel(DL=>DL, (nmodes,nmodes), FourierTransform, gelu),
+            OperatorKernel(DL=>DL, (nmodes,nmodes), FourierTransform, gelu),
             OperatorKernel(DL=>DL, (nmodes,nmodes), FourierTransform, gelu),
             OperatorKernel(DL=>DL, (nmodes,nmodes), FourierTransform, gelu),
             OperatorKernel(DL=>DL, (nmodes,nmodes), FourierTransform, gelu),
@@ -76,7 +79,7 @@ for k in K
     logger = TBLogger("script/logs/os/$(k)/")
 
     lr = 1e-2
-    nepochs = 30
+    nepochs = 50
     opt = Flux.Adam(lr)
     learn(model,lossfunction,data,opt,nepochs,foldername,logger)
 
