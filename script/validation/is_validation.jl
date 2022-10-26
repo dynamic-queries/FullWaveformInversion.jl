@@ -2,8 +2,10 @@ using HDF5
 using NeuralOperators
 using FullWaveformInversion
 using Flux
+using Plots
 using FullWaveformInversion:learn
 using TensorBoardLogger
+using BSON:@load
 
 filename = "/tmp/ge96gak/consolidated_data/static/BOUNDARY"
 file = h5open(filename,"r")
@@ -34,7 +36,7 @@ if isdir(foldername)
 end 
 filename = files[end]
 
-@load "weights/is/16/Epoch_100_TrainLoss_0.014171972255736812" modeltemp
+@load "weights/is/16/Epoch_100_TrainLoss_0.007743826345888091" modeltemp
 model = gpu(modeltemp)
 ypredict = model(xdata|>gpu) |> cpu
 

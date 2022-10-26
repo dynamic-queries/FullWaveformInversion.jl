@@ -34,48 +34,52 @@ traind,testd = Flux.splitobs((xdata,ydata),at=0.9)
 train_loader = Flux.DataLoader(traind,batchsize=1,shuffle=true)
 test_loader = Flux.DataLoader(testd,batchsize=1,shuffle=false)
 
-DL = 16
+DLs = [16,24,32]
 nmodes = 12
 
-model = Chain(
-        Dense(3,DL),
-        OperatorKernel(DL=>DL, (nmodes,nmodes), FourierTransform, gelu),
-        OperatorKernel(DL=>DL, (nmodes,nmodes), FourierTransform, gelu),
-        OperatorKernel(DL=>DL, (nmodes,nmodes), FourierTransform, gelu),
-        OperatorKernel(DL=>DL, (nmodes,nmodes), FourierTransform, gelu),
-        Dense(DL,DL),
-        Dense(DL,1)
-)
+for DL in DLs
+    model = Chain(
+            Dense(3,DL),
+            OperatorKernel(DL=>DL, (nmodes,nmodes), FourierTransform, gelu),
+            OperatorKernel(DL=>DL, (nmodes,nmodes), FourierTransform, gelu),
+            OperatorKernel(DL=>DL, (nmodes,nmodes), FourierTransform, gelu),
+            OperatorKernel(DL=>DL, (nmodes,nmodes), FourierTransform, gelu),
+            OperatorKernel(DL=>DL, (nmodes,nmodes), FourierTransform, gelu),
+            OperatorKernel(DL=>DL, (nmodes,nmodes), FourierTransform, gelu),
+            Dense(DL,DL),
+            Dense(DL,1)
+    )
 
-# Optimizer params
-lossfunction = l₂loss
-data = (train_loader,test_loader)
+    # Optimizer params
+    lossfunction = l₂loss
+    data = (train_loader,test_loader)
 
-# Optimizer params
-lossfunction = l₂loss
-data = (train_loader,test_loader)
-foldername = "weights/is/$(DL)/"
+    # Optimizer params
+    lossfunction = l₂loss
+    data = (train_loader,test_loader)
+    foldername = "weights/is/$(DL)/"
 
-if !isdir(foldername)
-    mkdir(foldername)
-end 
+    if !isdir(foldername)
+        mkdir(foldername)
+    end 
 
-print("Training model... \n")
+    print("Training model... \n")
 
-model = gpu(model)
-logger = TBLogger("script/logs/is/$(DL)/")
+    model = gpu(model)
+    logger = TBLogger("script/logs/is/$(DL)/")
 
-lr = 1e-2
-nepochs = 50
-opt = Flux.Adam(lr)
-learn(model,lossfunction,data,opt,nepochs,foldername,logger)
+    lr = 1e-2
+    nepochs = 50
+    opt = Flux.Adam(lr)
+    learn(model,lossfunction,data,opt,nepochs,foldername,logger)
 
-lr = 1e-3
-nepochs = 100
-opt = Flux.Adam(lr)
-learn(model,lossfunction,data,opt,nepochs,foldername,logger)
+    lr = 1e-3
+    nepochs = 100
+    opt = Flux.Adam(lr)
+    learn(model,lossfunction,data,opt,nepochs,foldername,logger)
 
-lr = 1e-4
-nepochs = 100
-opt = Flux.Adam(lr)
-learn(model,lossfunction,data,opt,nepochs,foldername,logger)
+    lr = 1e-4
+    nepochs = 100
+    opt = Flux.Adam(lr)
+    learn(model,lossfunction,data,opt,nepochs,foldername,logger)
+end
