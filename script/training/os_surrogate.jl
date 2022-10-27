@@ -9,7 +9,7 @@ using CUDA
 device = gpu
 CUDA.allowscalar(false)
 
-K = 1:10
+K = [50]
 for k in K
     # We know apriori that the problem was solved in the domain.
     # x ∈ [0,1]
@@ -25,7 +25,7 @@ for k in K
     ## Data
     filename = "/tmp/ge96gak/consolidated_data/dynamic/GROUND_TRUTH"
 
-    batches = 1:745
+    batches = 1:200
     BS = length(batches)
     nx = length(x)
     ny = length(y)
@@ -50,7 +50,7 @@ for k in K
 
     # Model
     nmodes = 12
-    DL = 16
+    DL = 32
     
     model = Chain(
             Dense(3,DL),
@@ -79,17 +79,17 @@ for k in K
     logger = TBLogger("script/logs/os/$(k)/")
 
     lr = 1e-2
-    nepochs = 50
+    nepochs = 20
     opt = Flux.Adam(lr)
     learn(model,lossfunction,data,opt,nepochs,foldername,logger)
 
     lr = 1e-3
-    nepochs = 100
+    nepochs = 20
     opt = Flux.Adam(lr)
     learn(model,lossfunction,data,opt,nepochs,foldername,logger)
 
     lr = 1e-4
-    nepochs = 100
+    nepochs = 20
     opt = Flux.Adam(lr)
     learn(model,lossfunction,data,opt,nepochs,foldername,logger)
 

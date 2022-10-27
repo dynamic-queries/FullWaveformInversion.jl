@@ -42,7 +42,10 @@ function train(model,loss,data,opt,epoch,foldername,logger)
     local trainagg = 0.0
     ps = Flux.Params(Flux.params(model))
 
-    printstyled("Training Phase\n";color=:green)
+    if mod(epoch,10) == 0
+        printstyled("Training Phase\n";color=:green)
+    end 
+    
     ntrain = length(trainloader)
     p = Progress(ntrain)
     for (x,y) in trainloader
@@ -57,7 +60,10 @@ function train(model,loss,data,opt,epoch,foldername,logger)
     end 
     trainagg /= ntrain
 
-    printstyled("Validaiton Phase\n";color=:red)
+    if mod(epoch,10) == 0
+        printstyled("Validaiton Phase\n";color=:red)
+    end 
+
     ntest = length(testloader)
     local testagg = 0.0 
     for (x,y) in testloader
@@ -67,7 +73,7 @@ function train(model,loss,data,opt,epoch,foldername,logger)
     testagg /= ntest
 
     losses = (trainagg,testagg)    
-    if mod(epoch,1) == 0
+    if mod(epoch,10) == 0
         callback(losses,model,epoch,foldername,logger)
     end 
 end 
