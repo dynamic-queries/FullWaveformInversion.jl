@@ -96,7 +96,7 @@ function solver(nx::Int,ny::Int,::TwoD,boundary=nothing)
 
     # Solve the problem using time integration
     prob1 = ODEProblem(wave!,Array(init),tspan,params)
-    solution1 = solve(prob1,ORK256(),dt=δt,saveat=tsave,progress=true)
+    solution1 = OrdinaryDiffEq.solve(prob1,ORK256(),dt=δt,saveat=tsave,progress=true)
 
     function wave2!(du,u,p,t)
         k1 = p[1]
@@ -137,9 +137,9 @@ function solver(nx::Int,ny::Int,::TwoD,boundary=nothing)
     
     init = solution1.u[end]
     tspan = (temit,tsim)
-    prob = ODEProblem(wave2!,init,tspan,params)
+    prob = OrdinaryDiffEq.ODEProblem(wave2!,init,tspan,params)
     tsave = temit:δt:tsim
-    solution2 = solve(prob,ORK256(),dt=δt,saveat=tsave)
+    solution2 = OrdinaryDiffEq.solve(prob,ORK256(),dt=δt,saveat=tsave)
 
     # Munge the data
     sol2 = Array(solution2)

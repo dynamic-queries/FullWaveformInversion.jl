@@ -7,6 +7,7 @@ using SparseArrays
 using LinearAlgebra
 using Plots
 using OrdinaryDiffEq 
+using OrdinaryDiffEq:solve
 using HDF5
 using MPI
 using Flux
@@ -34,6 +35,6 @@ include("gar.jl")
 include("optimization.jl")
 
 export surrogate, sample, timeseries
-export DefectReconstructionProblem, solve, __solve
+# export DefectReconstructionProblem, solve, __solve
 
 end 
