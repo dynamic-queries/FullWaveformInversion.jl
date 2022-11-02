@@ -29,7 +29,7 @@ ny = length(y)
 xdata = Array{Float64,4}(undef,3,nx,ny,BS)
 ydata = Array{Float64,4}(undef,1,nx,ny,BS)
 
-for k=50:50
+for k=10:10:50
 
     for (i,b) in enumerate(batches)
         file = h5open(string(filename,b),"r")
@@ -50,7 +50,9 @@ for k=50:50
     for i=1:5
         p1 = heatmap(x,y,ypredict[1,:,:,i],title="FNO model");
         p2 = heatmap(x,y,ydata[1,:,:,i],title="Original");
-        plot(p1,p2,layout=(2,1),legend=false);
+        error = ypredict[1,:,:,i] .- ydata[1,:,:,i]
+        p3 = heatmap(x,y,error,title="Error");
+        plot(p1,p2,p3,legend=false);
         foldername = "script/validation_images/os/$(k)/"
         if !isdir(foldername)
             mkdir(foldername)
