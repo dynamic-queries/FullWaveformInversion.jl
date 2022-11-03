@@ -1,3 +1,9 @@
+# Custom types for dimension of the problem
+abstract type Dimension end 
+struct OneD <: Dimension end 
+struct TwoD <: Dimension end 
+
+
 """
     Input : nothing
     Output : (x,s) 

@@ -73,7 +73,7 @@ function __solve(sol::DefectReconstructionSolution, sur::FNO, reg::GAR)
     return sol         
 end 
 
-function solve(prob::DefectReconstructionProblem,sur::AbstractSurrogate,reg::AbstractRegularizer)
+function CommonSolve.solve(prob::DefectReconstructionProblem,sur::AbstractSurrogate,reg::AbstractRegularizer)
     sol = DefectReconstructionSolution(prob)
     __solve(sol,sur,reg)
 end 
