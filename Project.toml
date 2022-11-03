@@ -6,6 +6,7 @@ version = "0.1.0"
 [deps]
 BSON = "fbb218c0-5317-5bc6-957e-2ee96dd4b1f0"
 CUDA = "052768ef-5323-5732-b1bb-66c8b64840ba"
+CommonSolve = "38540f10-b2f7-11e9-35d8-d573e4eb0ff2"
 Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
 Flux = "587475ba-b771-5e3f-ad9e-33799f191a9c"
 FluxOptTools = "ca11d760-9bce-11e9-0b7e-4f72fcadb4f9"
