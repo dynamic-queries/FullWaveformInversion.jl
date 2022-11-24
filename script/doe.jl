@@ -10,7 +10,7 @@ using TensorBoardLogger
 using FullWaveformInversion:learn
 using CUDA
 
-K = 50:10:100
+K = 7:50
 ## Timestep of Interest
 for k in K
 
@@ -24,9 +24,9 @@ for k in K
     X = reshape([xi for xi in x for _ in y],(length(x),length(y)))
     Y = reshape([yi for _ in x for yi in y],(length(x),length(y)))
 
-    filename = "/tmp/ge96gak/consolidated_data/dynamic/GROUND_TRUTH"
+    filename = "consolidated/dynamic/GROUND_TRUTH"
 
-    batches = 1:700
+    batches = 1:1900
     BS = length(batches)
     nx = length(x)
     ny = length(y)
@@ -103,7 +103,7 @@ for k in K
         learn(model,lossfunction,data,opt,nepochs,foldername,logger)
 
         lr = 1e-4
-        nepochs = 30
+        nepochs = 20
         opt = Flux.Adam(lr)
         learn(model,lossfunction,data,opt,nepochs,foldername,logger)
     end 

@@ -1,7 +1,7 @@
 inputfolder = "doe/os/"
 targetfolder = "best/os/"
 
-files = 10:10:50
+files = 1:39
 for k in files
     local foldername = "$(inputfolder)$(k)/6/16/weights/"
     fileslist = readdir(foldername)

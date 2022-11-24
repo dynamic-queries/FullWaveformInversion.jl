@@ -23,7 +23,7 @@ end
 
 function timeseries!(initial::Array, final::Array, TS::Matrix, sensorlocs::Vector)
     # We train a maximum of 100 surrogates for the first 100 time steps.
-    nmax = 100
+    nmax = 39
     for j=1:nmax
         sur = surrogate(j)
         final .= sur(initial)

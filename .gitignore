@@ -2,6 +2,9 @@
 /big_data
 /p_data
 /consolidated_data
+/consolidated
 /weights
 /logs
+/doe
 Manifest.toml
+script/validation_images
