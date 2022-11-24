@@ -95,5 +95,6 @@ function standalone_test(boundary,boundary_name)
         heatmap(ysur[1,:,:,ts],title="$(ts) time step")
     end 
     f4 = gif(anim,"figures/$(boundary_name)_surrogate.gif",fps=10)
-    plot(f1,f3,f2,f4)
+    # plot(f1,f3,f2,f4)
+    ysur,ydata
 end 
