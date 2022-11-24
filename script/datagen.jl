@@ -14,7 +14,7 @@ rank = MPI.Comm_rank(comm) + 1
 nx = 200
 ny = 200
 # Number of instances of the problem.
-N = 20
+N = 1
 @time sensordata,boundaries,solutions = FWI.generate_data(nx,ny,N)
 
 foldername = "data/$(date_time)/p_data/$(rank)/dynamic/"
