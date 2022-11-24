@@ -25,11 +25,11 @@ include("utils.jl")
 include("solvers.jl")
 include("data-gen.jl")
 include("train.jl")
-# include("fno.jl")
+include("fno.jl")
 include("gar.jl")
 include("optimization.jl")
 
-export surrogate, sample, timeseries
+export surrogate, sample, timeseries!, coordinates
 export DefectReconstructionProblem, solve, __solve
 
 end 
