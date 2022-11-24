@@ -25,7 +25,7 @@ include("utils.jl")
 include("solvers.jl")
 include("data-gen.jl")
 include("train.jl")
-include("fno.jl")
+# include("fno.jl")
 include("gar.jl")
 include("optimization.jl")
 
