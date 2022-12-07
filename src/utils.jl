@@ -9,7 +9,7 @@ struct TwoD <: Dimension end
     Output : (x,s) 
 """
 function spline()
-    x = x = 0.0:0.01:2π
+    x = x = 0.0:0.005:2π
     σ = 1
     K = zeros(length(x),length(x))
     for i=1:length(x)
@@ -30,6 +30,7 @@ end
         nx : 
 """
 function spline2obstacle!(domain::BitArray,spline::Tuple)
+    # ? What have I done ?
     x,y = spline
     nx,ny = size(domain)
     xmin = minimum(x)
@@ -58,6 +59,45 @@ function spline2obstacle!(domain::BitArray,spline::Tuple)
     end 
 end 
 
+function spline2realdefect!(domain::BitArray,spline::Tuple)
+    x,y = spline
+    nx,ny = size(domain)
+    xmin = minimum(x)
+    xmax = maximum(x)
+
+    itp = LinearInterpolation(x,y)
+    xdomain = xmin:(xmax-xmin)/(nx-1):xmax
+    ydomain = itp.(collect(xdomain))
+    
+    nhalf = floor(Int,nx/2)
+    start = rand(1:nhalf)
+    idxobs = start:start+nhalf
+    xobs = xdomain[idxobs]
+    yobs = ydomain[idxobs]
+
+    ymin = minimum(yobs)
+    ymax = maximum(yobs)
+    xobs = (xobs .- xmin) ./ (xmax - xmin)
+    yobs = (yobs .- ymin) ./ (ymax - ymin)
+
+    xobs = floor.(Int,90 .+ (nx-180).*xobs)
+    yobs = floor.(Int,90 .+ (ny-180).*yobs)
+
+    σ = 1e5
+    f(x,y,x0,y0) = exp.(-(x-x0)/σ^2 -(y-y0)/σ^2)
+
+    for l=1:size(domain,1)
+        for m=1:size(domain,2)
+            for i=1:length(xobs)
+                if f(domain[l],domain[m],xobs[i],yobs[i]) > 1e-16
+                    @show f(domain[l],domain[m],xobs[i],yobs[i])
+                    domain[xobs[i],yobs[i]] = 1
+                end 
+            end
+        end 
+    end 
+end 
+
 """ 
     Input: 
         - nx 
@@ -75,7 +115,7 @@ function mask_boundary(nx::Int,ny::Int,spline=nothing)
     boundary[:,end] .= 1 
 
     if !isnothing(spline)
-        spline2obstacle!(boundary,spline)
+        spline2realdefect!(boundary,spline)
     end 
     boundary
 end 
