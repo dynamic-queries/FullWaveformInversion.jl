@@ -33,10 +33,10 @@ function generate_data(nx::Int,ny::Int,N::Vector{Int},defects::Vector{AbstractDe
     end 
 
     for boundary in boundaries
-        sensordata,_,sol = solver(nx,ny,Two())
+        sensordata,_,sol = solver(nx,ny,TwoD())
         push!(solutions,sol)
     end 
-    sensordata,boundaries,solutions
+    boundaries,solutions
 end 
 
 """ 

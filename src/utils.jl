@@ -90,7 +90,6 @@ function spline2realdefect!(domain::BitArray,spline::Tuple)
         for m=1:size(domain,2)
             for i=1:length(xobs)
                 if f(domain[l],domain[m],xobs[i],yobs[i]) > 1e-16
-                    @show f(domain[l],domain[m],xobs[i],yobs[i])
                     domain[xobs[i],yobs[i]] = 1
                 end 
             end

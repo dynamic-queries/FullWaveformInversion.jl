@@ -31,7 +31,7 @@ include("gar.jl")
 include("optimization.jl")
 
 export surrogate, sample, timeseries!, coordinates
-export boundary
+export Empty,Point,Linear,Ellipse,Spline,boundary
 export DefectReconstructionProblem, solve, __solve
 
 end 
