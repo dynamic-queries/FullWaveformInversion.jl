@@ -23,6 +23,7 @@ CUDA.allowscalar(false)
 
 include("utils.jl")
 include("solvers.jl")
+include("defects.jl")
 include("data-gen.jl")
 include("train.jl")
 include("fno.jl")

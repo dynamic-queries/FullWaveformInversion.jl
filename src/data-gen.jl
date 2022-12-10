@@ -21,6 +21,24 @@ function generate_data(nx::Int,ny::Int,N::Int)
     sensordata,boundaries,solutions
 end 
 
+
+function generate_data(nx::Int,ny::Int,N::Vector{Int},defects::Vector{AbstractDefect}) 
+    print("Generating data ...\n")
+    
+    solutions = []
+    boundaries = []
+    for nbtypes = 1:length(N)
+        typ = defects[nbtypes]
+        push!(boundaries,boundary(nx,ny,typ))
+    end 
+
+    for boundary in boundaries
+        sensordata,_,sol = solver(nx,ny,Two())
+        push!(solutions,sol)
+    end 
+    sensordata,boundaries,solutions
+end 
+
 """ 
     Input : Vector of Arrays
     Output : NIL
