@@ -7,7 +7,7 @@ using FullWaveformInversion:learn
 using TensorBoardLogger
 using BSON:@load
 
-filename = "/tmp/ge96gak/consolidated_data/static/BOUNDARY"
+filename = "consolidated/static/BOUNDARY"
 file = h5open(filename,"r")
 
 x = 0.0:(1.0)/200:1.0
@@ -34,9 +34,9 @@ foldername = "weights/is/16/"
 if isdir(foldername)
     files = readdir(foldername)
 end 
-filename = files[end]
+# filename = files[end]
 
-@load "weights/is/16/Epoch_100_TrainLoss_0.007743826345888091" modeltemp
+@load "best/is/is_6l_ 16d" modeltemp
 model = gpu(modeltemp)
 ypredict = model(xdata|>gpu) |> cpu
 

@@ -133,6 +133,6 @@ function boundary(nx::Int,ny::Int,::Spline)
     boundary[:,end] .= 1 
 
     sp = spline()
-    spline2realdefect!(boundary,sp) 
+    spline2obstacle!(boundary,sp) 
     boundary
 end 

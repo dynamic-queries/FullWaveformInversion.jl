@@ -11,11 +11,11 @@ MPI.Init()
 comm = MPI.COMM_WORLD
 rank = MPI.Comm_rank(comm) + 1
 
-nx = 100
-ny = 100
+nx = 200
+ny = 200
 # Number of instances of the problem.
-N = [1,1,1,1,1]
-Defects = [FWI.Empty(),FWI.Point(),FWI.Linear(),FWI.Ellipse(),FWI.Spline()]
+N = [1,30,30,30]
+Defects = [FWI.Empty(),FWI.Point(),FWI.Ellipse(),FWI.Spline()]
 boundaries,solutions = FWI.generate_data(nx,ny,N,Defects)
 
 foldername = "data/$(date_time)/p_data/$(rank)/dynamic/"
