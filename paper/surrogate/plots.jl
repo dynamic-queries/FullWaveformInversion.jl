@@ -23,7 +23,7 @@ URO = reduce(hcat,URO)
 # Visualize the defect, simulation and surrogate results
 theme = :coolwarm
 fs = 12
-f1 = heatmap(boundary,title="Defect",titlefontsize=fs)
+f1 = heatmap(boundary,title="Defect",c=:algae,titlefontsize=fs)
 f2 = heatmap(solutionA,c=theme,title="Simulation : t=s+1",titlefontsize=fs)
 f3 = heatmap(solutionB[end],c=theme,title="Simulation : t=s+k",titlefontsize=fs)
 
