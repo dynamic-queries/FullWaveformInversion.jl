@@ -254,7 +254,7 @@ function solver_init(nx::Int,ny::Int,::TwoD,boundary=nothing)
     prob1 = ODEProblem(wave!,Array(init),tspan,params)
     solution1 = OrdinaryDiffEq.solve(prob1,ORK256(),dt=δt,saveat=tsave,progress=true)
     sol = Array(solution1)
-    sol[end]
+    sol[:,:,end]
 end 
 
 mutable struct RBF
@@ -290,14 +290,14 @@ function (b::RBF)(k)
     Z
 end 
 
-function random_rbf_defect()
+function random_rbf_defect(nx,ny)
     x = 0.0:0.005:2π
     rbf = RBF(x)
     k = rbf.coefficients
     x,y = x,rbf(k)
     guess_boundary = BitMatrix(undef,nx+1,ny+1)
     guess_boundary .= 0
-    FWI.spline2obstacle!(guess_boundary,(x,y))
+    spline2obstacle!(guess_boundary,(x,y))
     guess_boundary
 end
 
@@ -305,7 +305,7 @@ function data_gen_init(nx,ny,ninstances,filename)
     file = h5open(filename,"w")
     pro = Progress(ninstances,1)
     for i=1:ninstances
-        bound = random_rbf_defect()
+        bound = random_rbf_defect(nx,ny)
         sol = solver_init(nx,ny,TwoD(),bound)      
         file["b$(i)"] = Array(bound)
         file["$(i)"] = sol
