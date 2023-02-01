@@ -1,8 +1,8 @@
 using LinearAlgebra
 using ForwardDiff
 using Plots
-using Optimization
-using OptimizationOptimJL
+# using Optimization
+# using OptimizationOptimJL
 
 # Radial basis struct
 mutable struct RBF

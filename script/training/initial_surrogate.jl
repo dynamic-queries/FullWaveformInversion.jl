@@ -6,7 +6,7 @@ using FullWaveformInversion:learn
 using TensorBoardLogger
 
 
-filename = "/tmp/ge96gak/consolidated_data/static/BOUNDARY"
+filename = "consolidated_data/static/BOUNDARY"
 file = h5open(filename)
 
 x = 0.0:(1.0)/200:1.0
@@ -18,14 +18,27 @@ Y = reshape([yi for _ in x for yi in y],(nx,ny))
 batches = 1:745
 BS = length(batches)
 
-xdata = Array{Float64,4}(undef,3,nx,ny,BS)
-ydata = Array{Float64,4}(undef,1,nx,ny,BS)
+filename =  "consolidated_data/rbf_defects"
+file_rbf = h5open(filename)
+bs_rbf = length(file_rbf)
+
+
+xdata = Array{Float64,4}(undef,3,nx,ny,BS+bs_rbf)
+ydata = Array{Float64,4}(undef,1,nx,ny,BS+bs_rbf)
 
 for (ib,b) in enumerate(batches)
     xdata[1,:,:,ib] .= read(file["b$(b)"])
     xdata[2,:,:,ib] .= X
     xdata[3,:,:,ib] .= Y
     ydata[1,:,:,ib] .= read(file["$(b)"])
+end 
+
+batches = 1:990
+for i=1:batches
+    xdata[1,:,:,BS+i] .= read(file["$(i)"])
+    xdata[2,:,:,BS+i] .= X
+    xdata[3,:,:,BS+i] .= Y
+    ydata[1,:,:,BS+i] .= read(file["$(b)"])
 end 
 
 print("Read Data ... \n")
