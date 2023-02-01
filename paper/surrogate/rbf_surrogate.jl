@@ -25,8 +25,8 @@ guess_boundary .= 0
 FWI.spline2obstacle!(guess_boundary,(x,y))
 
 input[1,:,:,1] .= guess_boundary
-temp = SurA(input)
-sur_solutionA = temp[1,:,:,1]
+temp = FWI.solver_init(nx,ny,FWI.TwoD(),guess_boundary)
+sur_solutionA = temp
 
 sur_solutionB = []
 input[1,:,:,1] = sur_solutionA
@@ -69,7 +69,7 @@ f7 = heatmap(sur_solutionB[end]-solutionB[end],c=theme,title="Error: t=ts+k δt"
 plot(f1,f2,f4,xaxis=false,yaxis=false,axis=nothing,size=(500,500))
 savefig("paper/figures/rbf/TS_1_sur_vs_sim.svg")
 
-plot(f1,f5,xaxis=false,yaxis=false,axis=nothing,size=(500,500))
+plot(f1,f5,f7,xaxis=false,yaxis=false,axis=nothing,size=(500,500))
 savefig("paper/figures/rbf/TS_k_sur_vs_sim.svg")
 
 # Visualize time series

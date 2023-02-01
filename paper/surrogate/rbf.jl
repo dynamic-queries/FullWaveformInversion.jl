@@ -57,4 +57,4 @@ function test(k)
     f = plot(rbf(sol.u),label="Simulated",title="$(k)")
     plot!(ydata,label="Actual")
     display(f)
-end 
+end

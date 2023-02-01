@@ -77,5 +77,3 @@ function CommonSolve.solve(prob::DefectReconstructionProblem,sur::AbstractSurrog
     sol = DefectReconstructionSolution(prob)
     __solve(sol,sur,reg)
 end 
-
-

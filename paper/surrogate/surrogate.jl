@@ -17,7 +17,4 @@ for i=1:ntsteps
     sur = SurBs[i]
     output = sur(input)
     push!(sur_solutionB,output[1,:,:,1])    
-end 
-
-
-# sur_solutionA
+end

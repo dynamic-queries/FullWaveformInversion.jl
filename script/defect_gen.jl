@@ -7,13 +7,13 @@ comm = MPI.COMM_WORLD
 rank = MPI.Comm_rank(comm) + 1
 #
 print("Generating data in rank $(rank)\n")
-nx = 50
-ny = 50
+nx = 200
+ny = 200
 filename = "data/rbf/$(rank)/"
 if !isdir(filename)
     mkpath(filename)
 end 
-ninstances = 1000
+ninstances = 50
 FWI.data_gen_init(nx,ny,ninstances,string(filename,"BOUNDARY"))
 #
 MPI.Barrier(comm)

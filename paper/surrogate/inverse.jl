@@ -41,5 +41,3 @@ end
 # Evaluate loss function
 approx = rbf
 error = eval(approx.coefficients,nx,ny)
-
-# Compute the gradient of the loss function

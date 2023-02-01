@@ -254,7 +254,10 @@ function solver_init(nx::Int,ny::Int,::TwoD,boundary=nothing)
     prob1 = ODEProblem(wave!,Array(init),tspan,params)
     solution1 = OrdinaryDiffEq.solve(prob1,ORK256(),dt=δt,saveat=tsave,progress=true)
     sol = Array(solution1)
-    sol[:,:,end]
+
+    u = reshape(sol[1:n,:],(nx,ny,:))
+    v = reshape(sol[n+1:end,:],(nx,ny,:))
+    u[:,:,end]
 end 
 
 mutable struct RBF

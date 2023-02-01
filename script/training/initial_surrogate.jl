@@ -6,8 +6,8 @@ using FullWaveformInversion:learn
 using TensorBoardLogger
 
 
-filename = "consolidated_data/static/BOUNDARY"
-file = h5open(filename)
+filename = "/u/home/ge96gak/.julia/dev/FullWaveformInversion.jl/consolidated/static/BOUNDARY"
+file = h5open(filename,"r")
 
 x = 0.0:(1.0)/200:1.0
 y = 0.0:(1.0)/200:1.0
@@ -15,13 +15,12 @@ nx,ny = length(x),length(y)
 X = reshape([xi for xi in x for _ in y],(nx,ny))
 Y = reshape([yi for _ in x for yi in y],(nx,ny))
 
-batches = 1:745
+batches = 1:45
 BS = length(batches)
 
-filename =  "consolidated_data/rbf_defects"
+filename =  "/u/home/ge96gak/.julia/dev/FullWaveformInversion.jl/consolidated/rbf/BOUNDARY"
 file_rbf = h5open(filename)
 bs_rbf = length(file_rbf)
-
 
 xdata = Array{Float64,4}(undef,3,nx,ny,BS+bs_rbf)
 ydata = Array{Float64,4}(undef,1,nx,ny,BS+bs_rbf)
@@ -33,12 +32,12 @@ for (ib,b) in enumerate(batches)
     ydata[1,:,:,ib] .= read(file["$(b)"])
 end 
 
-batches = 1:990
+batches = 90
 for i=1:batches
-    xdata[1,:,:,BS+i] .= read(file["$(i)"])
+    xdata[1,:,:,BS+i] .= read(file["b$(i)"])
     xdata[2,:,:,BS+i] .= X
     xdata[3,:,:,BS+i] .= Y
-    ydata[1,:,:,BS+i] .= read(file["$(b)"])
+    ydata[1,:,:,BS+i] .= read(file["$(i)"])
 end 
 
 print("Read Data ... \n")
@@ -47,7 +46,7 @@ traind,testd = Flux.splitobs((xdata,ydata),at=0.9)
 train_loader = Flux.DataLoader(traind,batchsize=1,shuffle=true)
 test_loader = Flux.DataLoader(testd,batchsize=1,shuffle=false)
 
-DLs = [16,24,32]
+DLs = [16]
 nmodes = 12
 
 for DL in DLs
@@ -87,12 +86,12 @@ for DL in DLs
     learn(model,lossfunction,data,opt,nepochs,foldername,logger)
 
     lr = 1e-3
-    nepochs = 100
+    nepochs = 150
     opt = Flux.Adam(lr)
     learn(model,lossfunction,data,opt,nepochs,foldername,logger)
 
     lr = 1e-4
-    nepochs = 100
+    nepochs = 150
     opt = Flux.Adam(lr)
     learn(model,lossfunction,data,opt,nepochs,foldername,logger)
 end
