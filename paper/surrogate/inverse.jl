@@ -8,8 +8,6 @@ guess_boundary = pboundary
 
 # Show the relative difference between the two defects
 h1 = heatmap(true_boundary)
-h2 = heatmap(guess_bounary)
-plot(h1,h2)
 
 # Actual data
 TS_actual = URO
@@ -19,8 +17,13 @@ n = 100
 x = 0.0:(1.0/(n-1)):1.0
 rbf = RBF(x)
 
+# Lift function
+function lift(spline,nx,ny)
+
+end 
+
 # Define loss function
-function eval(params)
+function eval(params,nx,ny)
     spline = rbf(params)
     boundary = lift(spline,nx,ny)
     input[1,:,:,1] = boundary
@@ -36,6 +39,7 @@ function eval(params)
 end
 
 # Evaluate loss function
-error = eval(approx.coefficients)
+approx = rbf
+error = eval(approx.coefficients,nx,ny)
 
 # Compute the gradient of the loss function

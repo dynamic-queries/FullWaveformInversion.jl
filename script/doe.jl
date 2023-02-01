@@ -10,7 +10,7 @@ using TensorBoardLogger
 using FullWaveformInversion:learn
 using CUDA
 
-K = 7:50
+K = 71:150
 ## Timestep of Interest
 for k in K
 

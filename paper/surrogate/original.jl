@@ -9,7 +9,7 @@ solutionA = read(file["$(test_set)"])
 
 # FOM2
 solutionB = [] 
-ntsteps = 39
+
 for i=1:ntsteps
     file = h5open(string(filename,"dynamic/GROUND_TRUTH$(test_set)"))
     push!(solutionB,read(file["$(i)"]))

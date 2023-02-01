@@ -2,6 +2,7 @@ include("original.jl")
 include("surrogate.jl")
 using Plots
 using LinearAlgebra
+using Measures
 
 ## Timeseries
 # FOM
@@ -24,13 +25,13 @@ URO = reduce(hcat,URO)
 theme = :coolwarm
 fs = 12
 f1 = heatmap(boundary,title="Defect",c=:algae,titlefontsize=fs)
-f2 = heatmap(solutionA,c=theme,title="Simulation : t=s+1",titlefontsize=fs)
-f3 = heatmap(solutionB[end],c=theme,title="Simulation : t=s+k",titlefontsize=fs)
+f2 = heatmap(solutionA,c=theme,title="Simulation : t=ts+k δt",titlefontsize=fs)
+f3 = heatmap(solutionB[end],c=theme,title="Simulation :t=ts+k δt",titlefontsize=fs)
 
-f4 = heatmap(sur_solutionA,c=theme,title="Surrogate : t=s+1",titlefontsize=fs)
-f5 = heatmap(sur_solutionB[end],c=theme,title="Surrogate : t=s+k",titlefontsize=fs)
-f6 = heatmap(sur_solutionA-solutionA,c=theme,title="Error: t=s+1",titlefontsize=fs)
-f7 = heatmap(sur_solutionB[end]-solutionB[end],c=theme,title="Error: t=s+k",titlefontsize=fs)
+f4 = heatmap(sur_solutionA,c=theme,title="Surrogate : t=ts+k δt",titlefontsize=fs)
+f5 = heatmap(sur_solutionB[end],c=theme,title="Surrogate : t=ts+k δt",titlefontsize=fs)
+f6 = heatmap(sur_solutionA-solutionA,c=theme,title="Error: t=ts+k δt",titlefontsize=fs)
+f7 = heatmap(sur_solutionB[end]-solutionB[end],c=theme,title="Error: t=ts+k δt",titlefontsize=fs)
 
 plot(f1,f2,f6,f4,xaxis=false,yaxis=false,axis=nothing,size=(500,500))
 savefig("paper/figures/TS_1_sur_vs_sim.svg")
@@ -45,5 +46,5 @@ for i=1:10
     scatter!(URO[i,:],label="Surrogate")
     push!(plt,f)
 end 
-plot(plt...,layout=(2,5),size=(1350,750))
+plot(plt...,layout=(2,5),size=(1400,750),margin=7.5mm)
 savefig("paper/figures/Timeseries_sim_vs_sur_$(test_set).svg")

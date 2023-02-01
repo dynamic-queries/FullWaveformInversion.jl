@@ -9,13 +9,14 @@ filename = "best/is/"
 SurA = modeltemp
 SurBs = []
 filename = "best/os/"
-for i=1:39
+ntsteps = 70
+for i=1:ntsteps
     @load string(filename,"$(i)") modeltemp
     push!(SurBs,modeltemp)
 end 
 
 # Load precomputed initial conditions
-test_set = 1
+test_set = 1905
 nx = 200
 ny = 200
 boundary = nothing

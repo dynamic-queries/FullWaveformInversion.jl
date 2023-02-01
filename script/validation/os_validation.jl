@@ -20,6 +20,7 @@ Y = reshape([yi for _ in x for yi in y],(length(x),length(y)))
 
 ## Data
 filename = "consolidated/dynamic/GROUND_TRUTH"
+filenamestatic = "consolidated/static/BOUNDARY"
 
 batches = 1900:1905
 BS = length(batches)
@@ -29,11 +30,12 @@ ny = length(y)
 xdata = Array{Float64,4}(undef,3,nx,ny,BS)
 ydata = Array{Float64,4}(undef,1,nx,ny,BS)
 
-for k=1:39
+for k=40:70
 
     for (i,b) in enumerate(batches)
         file = h5open(string(filename,b),"r")
-        xdata[1,:,:,i] .= read(file["$(k)"])
+        file_s = h5open(filenamestatic,"r")
+        xdata[1,:,:,i] .= read(file_s["$(b)"])
         xdata[2,:,:,i] .= X 
         xdata[3,:,:,i] .= Y
         ydata[1,:,:,i] .= read(file["$(k)"])
