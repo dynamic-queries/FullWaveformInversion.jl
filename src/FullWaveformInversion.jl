@@ -5,10 +5,10 @@ using LinearAlgebra
 using Distributions
 using SparseArrays
 using LinearAlgebra
-using Plots
 using OrdinaryDiffEq
 using CommonSolve
 using HDF5
+using UnPack
 using MPI
 using Flux
 using Optim
@@ -26,12 +26,11 @@ include("solvers.jl")
 include("defects.jl")
 include("data-gen.jl")
 include("train.jl")
-include("fno.jl")
-include("gar.jl")
+include("surrogate.jl")
+include("regularization.jl")
 include("optimization.jl")
 
-export surrogate, sample, timeseries!, coordinates
-export Empty,Point,Linear,Ellipse,Spline,boundary
-export DefectReconstructionProblem, solve, __solve
+export solver, solver_init, TwoD
+export SurrogateModel, evaluate, evaluate_verbose
 
 end 

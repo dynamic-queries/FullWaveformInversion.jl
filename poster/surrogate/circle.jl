@@ -1,4 +1,5 @@
 include("preamble.jl")
+using Plots
 
 # Munge data to pass to the FNO
 input = Array{Float64,4}(undef,3,nx+1,ny+1,1)
