@@ -19,6 +19,7 @@ using CUDA
 using NeuralOperators
 using BSON
 using BSON:@load
+using Base.Threads
 CUDA.allowscalar(false)
 
 include("utils.jl")
@@ -31,6 +32,7 @@ include("regularization.jl")
 include("optimization.jl")
 
 export solver, solver_init, TwoD
-export SurrogateModel, evaluate, evaluate_verbose
-
+export RBF,spline2obstacle!
+export SurrogateModel, evaluate ,evaluate_verbose
+export Cheap, Expensive
 end 

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv='Content-Type' content='text/html; charset=utf-8'></meta>
+    <link rel='stylesheet' type='text/css' href='statprofiler.css'></link>
+    <title>StatProfilerHTML - /u/home/ge96gak/.julia/packages/NeuralOperators/eAan8/src/Transform/fourier_transform.jl</title>
+  </head>
+  <body>
+    <div class='report-header'>
+      <div class='backlink'>
+        <a href='index.html'>Report index</a>
+      </div>
+      <div class='report-title'>
+        StatProfilerHTML.jl report
+      </div>
+      <div class='generated-on'>
+        Generated on Wed, 08 Feb 2023 21:40:40
+      </div>
+    </div>
+    <table>
+      <caption>File source code</caption>
+      <thead>
+        <tr>
+          <th>Line</th>
+          <th>Exclusive</th>
+          <th>Inclusive</th>
+          <th>Code</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr id='L1'>
+          <td class='lineno'>1</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'></td>
+          <td>
+            
+            
+            <span class='code'>export FourierTransform</span>
+          </td>
+        </tr>
+        <tr id='L2'>
+          <td class='lineno'>2</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'></td>
+          <td>
+            
+            
+            <span class='code'></span>
+          </td>
+        </tr>
+        <tr id='L3'>
+          <td class='lineno'>3</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'></td>
+          <td>
+            
+            
+            <span class='code'>struct FourierTransform&#123;N, S&#125; &lt;: AbstractTransform</span>
+          </td>
+        </tr>
+        <tr id='L4'>
+          <td class='lineno'>4</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'></td>
+          <td>
+            
+            
+            <span class='code'>    modes::NTuple&#123;N, S&#125; # N &#61;&#61; ndims&#40;x&#41;</span>
+          </td>
+        </tr>
+        <tr id='L5'>
+          <td class='lineno'>5</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'></td>
+          <td>
+            
+            
+            <span class='code'>end</span>
+          </td>
+        </tr>
+        <tr id='L6'>
+          <td class='lineno'>6</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'></td>
+          <td>
+            
+            
+            <span class='code'></span>
+          </td>
+        </tr>
+        <tr id='L7'>
+          <td class='lineno'>7</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'></td>
+          <td>
+            
+            
+            <span class='code'>Base.ndims&#40;::FourierTransform&#123;N&#125;&#41; where &#123;N&#125; &#61; N</span>
+          </td>
+        </tr>
+        <tr id='L8'>
+          <td class='lineno'>8</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'></td>
+          <td>
+            
+            
+            <span class='code'>Base.eltype&#40;::Type&#123;FourierTransform&#125;&#41; &#61; ComplexF32</span>
+          </td>
+        </tr>
+        <tr id='L9'>
+          <td class='lineno'>9</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'></td>
+          <td>
+            
+            
+            <span class='code'></span>
+          </td>
+        </tr>
+        <tr id='L10'>
+          <td class='lineno'>10</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'></td>
+          <td>
+            
+            
+            <span class='code'>function transform&#40;ft::FourierTransform, 𝐱::AbstractArray&#41;</span>
+          </td>
+        </tr>
+        <tr id='L11'>
+          <td class='lineno'>11</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'>3 &#40;3 &#37;&#41;</td>
+          <td>
+            <div class='call-sites'>
+              3 &#40;3 &#37;&#41;
+              samples spent in transform
+              <br />
+              
+              3 &#40;100 &#37;&#41; &#40;incl.&#41;
+              when called from operator_conv
+              <a href='operator_kernel.jl-b5dcba23bbf9f7cd6f296f322530e88c64672257.html#L89'>line 89</a>
+              <br />
+            </div>
+            <div class='callees'>
+              3 &#40;100 &#37;&#41;
+              samples spent calling
+              <a href='fft.jl-d2d8b4b54884e1dc0841b8dea5ed2b1d245f4ceb.html#L272'>fft</a>
+              <br />
+            </div>
+            <span class='code'>    return fft&#40;Zygote.hook&#40;real, 𝐱&#41;, 1:ndims&#40;ft&#41;&#41; # &#91;size&#40;x&#41;..., in_chs, batch&#93;</span>
+          </td>
+        </tr>
+        <tr id='L12'>
+          <td class='lineno'>12</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'></td>
+          <td>
+            
+            
+            <span class='code'>end</span>
+          </td>
+        </tr>
+        <tr id='L13'>
+          <td class='lineno'>13</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'></td>
+          <td>
+            
+            
+            <span class='code'></span>
+          </td>
+        </tr>
+        <tr id='L14'>
+          <td class='lineno'>14</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'></td>
+          <td>
+            
+            
+            <span class='code'>function low_pass&#40;ft::FourierTransform, 𝐱_fft::AbstractArray&#41;</span>
+          </td>
+        </tr>
+        <tr id='L15'>
+          <td class='lineno'>15</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'></td>
+          <td>
+            
+            
+            <span class='code'>    return view&#40;𝐱_fft, map&#40;d -&gt; 1:d, ft.modes&#41;..., :, :&#41; # &#91;ft.modes..., in_chs, batch&#93;</span>
+          </td>
+        </tr>
+        <tr id='L16'>
+          <td class='lineno'>16</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'></td>
+          <td>
+            
+            
+            <span class='code'>end</span>
+          </td>
+        </tr>
+        <tr id='L17'>
+          <td class='lineno'>17</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'></td>
+          <td>
+            
+            
+            <span class='code'></span>
+          </td>
+        </tr>
+        <tr id='L18'>
+          <td class='lineno'>18</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'></td>
+          <td>
+            
+            
+            <span class='code'>truncate_modes&#40;ft::FourierTransform, 𝐱_fft::AbstractArray&#41; &#61; low_pass&#40;ft, 𝐱_fft&#41;</span>
+          </td>
+        </tr>
+        <tr id='L19'>
+          <td class='lineno'>19</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'></td>
+          <td>
+            
+            
+            <span class='code'></span>
+          </td>
+        </tr>
+        <tr id='L20'>
+          <td class='lineno'>20</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'></td>
+          <td>
+            
+            
+            <span class='code'>function inverse&#40;ft::FourierTransform, 𝐱_fft::AbstractArray&#41;</span>
+          </td>
+        </tr>
+        <tr id='L21'>
+          <td class='lineno'>21</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'>8 &#40;8 &#37;&#41;</td>
+          <td>
+            <div class='call-sites'>
+              8 &#40;8 &#37;&#41;
+              samples spent in inverse
+              <br />
+              
+              8 &#40;100 &#37;&#41; &#40;incl.&#41;
+              when called from operator_conv
+              <a href='operator_kernel.jl-b5dcba23bbf9f7cd6f296f322530e88c64672257.html#L95'>line 95</a>
+              <br />
+            </div>
+            <div class='callees'>
+              1 &#40;12 &#37;&#41;
+              samples spent calling
+              <a href='abstractarraymath.jl-aa5abf738f80b8234a13c050fa4889353c9b98c6.html#L169'>real</a>
+              <br />
+              7 &#40;88 &#37;&#41;
+              samples spent calling
+              <a href='definitions.jl-06060cacb7601579ae2453f97e603eb7fa0638dd.html#L62'>ifft</a>
+              <br />
+            </div>
+            <span class='code'>    return real&#40;ifft&#40;𝐱_fft, 1:ndims&#40;ft&#41;&#41;&#41; # &#91;size&#40;x_fft&#41;..., out_chs, batch&#93;</span>
+          </td>
+        </tr>
+        <tr id='L22'>
+          <td class='lineno'>22</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'></td>
+          <td>
+            
+            
+            <span class='code'>end</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
+

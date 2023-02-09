@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv='Content-Type' content='text/html; charset=utf-8'></meta>
+    <link rel='stylesheet' type='text/css' href='statprofiler.css'></link>
+    <title>StatProfilerHTML - /u/home/ge96gak/.julia/packages/CUDA/DfvRa/lib/cufft/util.jl</title>
+  </head>
+  <body>
+    <div class='report-header'>
+      <div class='backlink'>
+        <a href='index.html'>Report index</a>
+      </div>
+      <div class='report-title'>
+        StatProfilerHTML.jl report
+      </div>
+      <div class='generated-on'>
+        Generated on Wed, 08 Feb 2023 21:40:40
+      </div>
+    </div>
+    <table>
+      <caption>File source code</caption>
+      <thead>
+        <tr>
+          <th>Line</th>
+          <th>Exclusive</th>
+          <th>Inclusive</th>
+          <th>Code</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr id='L1'>
+          <td class='lineno'>1</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'></td>
+          <td>
+            
+            
+            <span class='code'>const cufftNumber &#61; Union&#123;cufftDoubleReal,cufftReal,cufftDoubleComplex,cufftComplex&#125;</span>
+          </td>
+        </tr>
+        <tr id='L2'>
+          <td class='lineno'>2</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'></td>
+          <td>
+            
+            
+            <span class='code'>const cufftReals &#61; Union&#123;cufftDoubleReal,cufftReal&#125;</span>
+          </td>
+        </tr>
+        <tr id='L3'>
+          <td class='lineno'>3</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'></td>
+          <td>
+            
+            
+            <span class='code'>const cufftComplexes &#61; Union&#123;cufftDoubleComplex,cufftComplex&#125;</span>
+          </td>
+        </tr>
+        <tr id='L4'>
+          <td class='lineno'>4</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'></td>
+          <td>
+            
+            
+            <span class='code'>const cufftDouble &#61; Union&#123;cufftDoubleReal,cufftDoubleComplex&#125;</span>
+          </td>
+        </tr>
+        <tr id='L5'>
+          <td class='lineno'>5</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'></td>
+          <td>
+            
+            
+            <span class='code'>const cufftSingle &#61; Union&#123;cufftReal,cufftComplex&#125;</span>
+          </td>
+        </tr>
+        <tr id='L6'>
+          <td class='lineno'>6</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'></td>
+          <td>
+            
+            
+            <span class='code'>const cufftTypeDouble &#61; Union&#123;Type&#123;cufftDoubleReal&#125;,Type&#123;cufftDoubleComplex&#125;&#125;</span>
+          </td>
+        </tr>
+        <tr id='L7'>
+          <td class='lineno'>7</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'></td>
+          <td>
+            
+            
+            <span class='code'>const cufftTypeSingle &#61; Union&#123;Type&#123;cufftReal&#125;,Type&#123;cufftComplex&#125;&#125;</span>
+          </td>
+        </tr>
+        <tr id='L8'>
+          <td class='lineno'>8</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'></td>
+          <td>
+            
+            
+            <span class='code'></span>
+          </td>
+        </tr>
+        <tr id='L9'>
+          <td class='lineno'>9</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'></td>
+          <td>
+            
+            
+            <span class='code'>cufftfloat&#40;x&#41; &#61; _cufftfloat&#40;float&#40;x&#41;&#41;</span>
+          </td>
+        </tr>
+        <tr id='L10'>
+          <td class='lineno'>10</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'></td>
+          <td>
+            
+            
+            <span class='code'>_cufftfloat&#40;::Type&#123;T&#125;&#41; where &#123;T&lt;:cufftReals&#125; &#61; T</span>
+          </td>
+        </tr>
+        <tr id='L11'>
+          <td class='lineno'>11</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'></td>
+          <td>
+            
+            
+            <span class='code'>_cufftfloat&#40;::Type&#123;Float16&#125;&#41; &#61; Float32</span>
+          </td>
+        </tr>
+        <tr id='L12'>
+          <td class='lineno'>12</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'></td>
+          <td>
+            
+            
+            <span class='code'>_cufftfloat&#40;::Type&#123;Complex&#123;T&#125;&#125;&#41; where &#123;T&#125; &#61; Complex&#123;_cufftfloat&#40;T&#41;&#125;</span>
+          </td>
+        </tr>
+        <tr id='L13'>
+          <td class='lineno'>13</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'></td>
+          <td>
+            
+            
+            <span class='code'>_cufftfloat&#40;::Type&#123;T&#125;&#41; where &#123;T&#125; &#61; error&#40;&quot;type &#36;T not supported&quot;&#41;</span>
+          </td>
+        </tr>
+        <tr id='L14'>
+          <td class='lineno'>14</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'></td>
+          <td>
+            
+            
+            <span class='code'>_cufftfloat&#40;x::T&#41; where &#123;T&#125; &#61; _cufftfloat&#40;T&#41;&#40;x&#41;</span>
+          </td>
+        </tr>
+        <tr id='L15'>
+          <td class='lineno'>15</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'></td>
+          <td>
+            
+            
+            <span class='code'></span>
+          </td>
+        </tr>
+        <tr id='L16'>
+          <td class='lineno'>16</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'></td>
+          <td>
+            
+            
+            <span class='code'>complexfloat&#40;x::DenseCuArray&#123;Complex&#123;&lt;:cufftReals&#125;&#125;&#41; &#61; x</span>
+          </td>
+        </tr>
+        <tr id='L17'>
+          <td class='lineno'>17</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'></td>
+          <td>
+            
+            
+            <span class='code'>realfloat&#40;x::DenseCuArray&#123;&lt;:cufftReals&#125;&#41; &#61; x</span>
+          </td>
+        </tr>
+        <tr id='L18'>
+          <td class='lineno'>18</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'></td>
+          <td>
+            
+            
+            <span class='code'></span>
+          </td>
+        </tr>
+        <tr id='L19'>
+          <td class='lineno'>19</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'></td>
+          <td>
+            
+            
+            <span class='code'>complexfloat&#40;x::DenseCuArray&#123;T&#125;&#41; where &#123;T&lt;:Complex&#125; &#61; copy1&#40;typeof&#40;cufftfloat&#40;zero&#40;T&#41;&#41;&#41;, x&#41;</span>
+          </td>
+        </tr>
+        <tr id='L20'>
+          <td class='lineno'>20</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'>1 &#40;1 &#37;&#41;</td>
+          <td>
+            <div class='call-sites'>
+              1 &#40;1 &#37;&#41;
+              samples spent in complexfloat
+              <br />
+              
+              1 &#40;100 &#37;&#41; &#40;incl.&#41;
+              when called from fft
+              <a href='fft.jl-d2d8b4b54884e1dc0841b8dea5ed2b1d245f4ceb.html#L273'>line 273</a>
+              <br />
+            </div>
+            <div class='callees'>
+              1 &#40;100 &#37;&#41;
+              samples spent calling
+              <a href='util.jl-955c795fdae30a36a0cf94e7b85c93fa424475e5.html#L23'>copy1</a>
+              <br />
+            </div>
+            <span class='code'>complexfloat&#40;x::DenseCuArray&#123;T&#125;&#41; where &#123;T&lt;:Real&#125; &#61; copy1&#40;typeof&#40;complex&#40;cufftfloat&#40;zero&#40;T&#41;&#41;&#41;&#41;, x&#41;</span>
+          </td>
+        </tr>
+        <tr id='L21'>
+          <td class='lineno'>21</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'></td>
+          <td>
+            
+            
+            <span class='code'></span>
+          </td>
+        </tr>
+        <tr id='L22'>
+          <td class='lineno'>22</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'></td>
+          <td>
+            
+            
+            <span class='code'>realfloat&#40;x::DenseCuArray&#123;T&#125;&#41; where &#123;T&lt;:Real&#125; &#61; copy1&#40;typeof&#40;cufftfloat&#40;zero&#40;T&#41;&#41;&#41;, x&#41;</span>
+          </td>
+        </tr>
+        <tr id='L23'>
+          <td class='lineno'>23</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'></td>
+          <td>
+            <div class='call-sites'>
+              1 &#40;1 &#37;&#41;
+              samples spent in copy1
+              <br />
+              
+              1 &#40;100 &#37;&#41; &#40;incl.&#41;
+              when called from complexfloat
+              <a href='util.jl-955c795fdae30a36a0cf94e7b85c93fa424475e5.html#L20'>line 20</a>
+              <br />
+            </div>
+            
+            <span class='code'></span>
+          </td>
+        </tr>
+        <tr id='L24'>
+          <td class='lineno'>24</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'></td>
+          <td>
+            
+            
+            <span class='code'>function copy1&#40;::Type&#123;T&#125;, x&#41; where T</span>
+          </td>
+        </tr>
+        <tr id='L25'>
+          <td class='lineno'>25</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'>1 &#40;1 &#37;&#41;</td>
+          <td>
+            
+            <div class='callees'>
+              1 &#40;100 &#37;&#41;
+              samples spent calling
+              <a href='array.jl-ddeb3ce8db10ba10cc9c2e2c396f4a926fdb9644.html#L136'>CuArray</a>
+              <br />
+            </div>
+            <span class='code'>    y &#61; CuArray&#123;T&#125;&#40;undef, map&#40;length, axes&#40;x&#41;&#41;&#41;</span>
+          </td>
+        </tr>
+        <tr id='L26'>
+          <td class='lineno'>26</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'></td>
+          <td>
+            
+            
+            <span class='code'>    #copy&#33;&#40;y, x&#41;</span>
+          </td>
+        </tr>
+        <tr id='L27'>
+          <td class='lineno'>27</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'></td>
+          <td>
+            
+            
+            <span class='code'>    y .&#61; broadcast&#40;xi-&gt;convert&#40;T,xi&#41;,x&#41;</span>
+          </td>
+        </tr>
+        <tr id='L28'>
+          <td class='lineno'>28</td>
+          <td class='tracecount excl'></td>
+          <td class='tracecount incl'></td>
+          <td>
+            
+            
+            <span class='code'>end</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
+

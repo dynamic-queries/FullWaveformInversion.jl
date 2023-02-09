@@ -6,8 +6,8 @@ using FullWaveformInversion:learn
 using TensorBoardLogger
 
 
-filename = "/u/home/ge96gak/.julia/dev/FullWaveformInversion.jl/consolidated/static/BOUNDARY"
-file = h5open(filename,"r")
+# filename = "/u/home/ge96gak/.julia/dev/FullWaveformInversion.jl/consolidated/static/BOUNDARY"
+# file = h5open(filename,"r")
 
 x = 0.0:(1.0)/200:1.0
 y = 0.0:(1.0)/200:1.0
@@ -15,15 +15,15 @@ nx,ny = length(x),length(y)
 X = reshape([xi for xi in x for _ in y],(nx,ny))
 Y = reshape([yi for _ in x for yi in y],(nx,ny))
 
-batches = 1:45
+batches = 1:300
 BS = length(batches)
 
-filename =  "/u/home/ge96gak/.julia/dev/FullWaveformInversion.jl/consolidated/rbf/BOUNDARY"
-file_rbf = h5open(filename)
-bs_rbf = length(file_rbf)
+filename =  "/u/home/ge96gak/.julia/dev/FullWaveformInversion.jl/consolidated/rbf/BOUNDARYs"
+file = h5open(filename)
+bs_rbf = length(file)
 
-xdata = Array{Float64,4}(undef,3,nx,ny,BS+bs_rbf)
-ydata = Array{Float64,4}(undef,1,nx,ny,BS+bs_rbf)
+xdata = Array{Float64,4}(undef,3,nx,ny,BS)
+ydata = Array{Float64,4}(undef,1,nx,ny,BS)
 
 for (ib,b) in enumerate(batches)
     xdata[1,:,:,ib] .= read(file["b$(b)"])
@@ -32,13 +32,13 @@ for (ib,b) in enumerate(batches)
     ydata[1,:,:,ib] .= read(file["$(b)"])
 end 
 
-batches = 90
-for i=1:batches
-    xdata[1,:,:,BS+i] .= read(file["b$(i)"])
-    xdata[2,:,:,BS+i] .= X
-    xdata[3,:,:,BS+i] .= Y
-    ydata[1,:,:,BS+i] .= read(file["$(i)"])
-end 
+# batches = 500
+# for i=1:batches
+#     xdata[1,:,:,BS+i] .= read(file["b$(i)"])
+#     xdata[2,:,:,BS+i] .= X
+#     xdata[3,:,:,BS+i] .= Y
+#     ydata[1,:,:,BS+i] .= read(file["$(i)"])
+# end 
 
 print("Read Data ... \n")
 
@@ -47,13 +47,11 @@ train_loader = Flux.DataLoader(traind,batchsize=1,shuffle=true)
 test_loader = Flux.DataLoader(testd,batchsize=1,shuffle=false)
 
 DLs = [16]
-nmodes = 12
+nmodes = 24
 
 for DL in DLs
     model = Chain(
             Dense(3,DL),
-            OperatorKernel(DL=>DL, (nmodes,nmodes), FourierTransform, gelu),
-            OperatorKernel(DL=>DL, (nmodes,nmodes), FourierTransform, gelu),
             OperatorKernel(DL=>DL, (nmodes,nmodes), FourierTransform, gelu),
             OperatorKernel(DL=>DL, (nmodes,nmodes), FourierTransform, gelu),
             OperatorKernel(DL=>DL, (nmodes,nmodes), FourierTransform, gelu),
@@ -69,16 +67,16 @@ for DL in DLs
     # Optimizer params
     lossfunction = l₂loss
     data = (train_loader,test_loader)
-    foldername = "weights/is/$(DL)/"
+    foldername = "doe/is/$(DL)/weights/"
 
     if !isdir(foldername)
-        mkdir(foldername)
+        mkpath(foldername)
     end 
 
     print("Training model... \n")
 
     model = gpu(model)
-    logger = TBLogger("script/logs/is/$(DL)/")
+    logger = TBLogger("doe/is/$(DL)/logs/")
 
     lr = 1e-2
     nepochs = 50
@@ -86,12 +84,12 @@ for DL in DLs
     learn(model,lossfunction,data,opt,nepochs,foldername,logger)
 
     lr = 1e-3
-    nepochs = 150
+    nepochs = 100
     opt = Flux.Adam(lr)
     learn(model,lossfunction,data,opt,nepochs,foldername,logger)
 
     lr = 1e-4
-    nepochs = 150
+    nepochs = 100
     opt = Flux.Adam(lr)
     learn(model,lossfunction,data,opt,nepochs,foldername,logger)
 end

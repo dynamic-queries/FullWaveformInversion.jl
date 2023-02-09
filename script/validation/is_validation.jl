@@ -7,7 +7,7 @@ using FullWaveformInversion:learn
 using TensorBoardLogger
 using BSON:@load
 
-filename = "consolidated/static/BOUNDARY"
+filename = "consolidated/rbf/BOUNDARY"
 file = h5open(filename,"r")
 
 x = 0.0:(1.0)/200:1.0
@@ -16,7 +16,7 @@ nx,ny = length(x),length(y)
 X = reshape([xi for xi in x for _ in y],(nx,ny))
 Y = reshape([yi for _ in x for yi in y],(nx,ny))
 
-batches = 746:750
+batches = 1001:1010
 BS = length(batches)
 
 xdata = Array{Float64,4}(undef,3,nx,ny,BS)
@@ -36,12 +36,12 @@ if isdir(foldername)
 end 
 # filename = files[end]
 
-@load "best/is/is_6l_ 16d" modeltemp
+@load "best/is/is" modeltemp
 model = gpu(modeltemp)
 ypredict = model(xdata|>gpu) |> cpu
 
 # Validation
-for i=1:5
+for i=1:length(batches)
     crack = heatmap(x,y,xdata[1,:,:,i],title="Defect");
     p1 = heatmap(x,y,ypredict[1,:,:,i],title="FNO model");
     p2 = heatmap(x,y,ydata[1,:,:,i],title="Original");
