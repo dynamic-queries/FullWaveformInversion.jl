@@ -5,6 +5,7 @@ using BSON:@load
 using Plots
 using Measures
 using KissSmoothing
+using HDF5
 
 const FWI = FullWaveformInversion
 
@@ -31,7 +32,7 @@ function visualize(matrix::Matrix,filename)
     savefig(filename)
 end 
 
-function visualize(actual::Array,pred::Vector,saveat,foldername)
+function visualize(actual::Array,pred::Vector,saveat,foldername,label)
     if !isdir(foldername)
         mkpath(foldername)
     end 
@@ -39,14 +40,14 @@ function visualize(actual::Array,pred::Vector,saveat,foldername)
     n = length(pred)
     theme = :coolwarm
     fs = 8
-    for j in saveat
+    anim = @animate for j in saveat
         f1 = heatmap(actual[:,:,j],c=theme,title="Simulation : t=ts+$(j) δt",titlefontsize=fs)
         f2 = heatmap(pred[j][1,:,:,1],c=theme,title="Surrogate",titlefontsize=fs)
         error = actual[:,:,j] - pred[j][1,:,:,1]
         f3 = heatmap(error,c=theme,title="Error",titlefontsize=fs)
         plot(f1,f2,f3)
-        savefig(string(foldername,"$(j).svg"))
     end 
+    gif(anim,"poster/visualization/$(label).gif",fps=10)
 end 
 
 function model_setup(defect_label::String, boundary)
@@ -66,8 +67,18 @@ function model_setup(defect_label::String, boundary)
     _,_,actual = FWI.solver(nx,ny,FWI.TwoD(),boundary)
     actual = actual[:,:,1:70]
 
-    saveat = 1:10:70
-    visualize(actual,predictions,saveat,"paper/figures/$(defect_label)/comparisons/")
+    filename = "unseen/$(defect_label)/"
+    if !isdir(filename)
+        mkpath(filename)
+    end 
+    file = h5open(string(filename,"$(defect_label)"),"w")
+    for i=1:70
+        file["$(i)"] = actual[:,:,i]
+    end 
+    close(file)
+
+    saveat = 1:70
+    visualize(actual,predictions,saveat,"paper/figures/$(defect_label)/comparisons/",defect_label)
     # visualize(predictions,saveat,"paper/figures/$(defect_label)/$(defect_label).svg")
     # visualize(timeseries,"paper/figures/$(defect_label)/ts_$(defect_label).svg")
 end
@@ -96,84 +107,84 @@ begin
     @time model_setup("circle",boundary)
 end 
 
-begin
-    # Diagonal defect
-    boundary = BitMatrix(undef,nx+1,ny+1)
-    boundary .= 0
-    for i=1:100
-        boundary[50+i,50+i]=1
-    end 
+# begin
+#     # Diagonal defect
+#     boundary = BitMatrix(undef,nx+1,ny+1)
+#     boundary .= 0
+#     for i=1:100
+#         boundary[50+i,50+i]=1
+#     end 
 
-    # Evaluate and visualize model
-    @time model_setup("diagonal",boundary)
-end 
+#     # Evaluate and visualize model
+#     @time model_setup("diagonal",boundary)
+# end 
 
-begin
-    # Composite defect
-    boundary = BitMatrix(undef,nx+1,ny+1)
-    boundary .= 0
-    nxmid = 101
-    nymid = 101
-    radius = 10
-    for i=1:nx
-        for j=1:ny
-            if sqrt((i-nxmid)^2 + (j-nymid)^2) <= radius 
-                boundary[i,j] = 1
-            end 
-        end 
-    end 
+# begin
+#     # Composite defect
+#     boundary = BitMatrix(undef,nx+1,ny+1)
+#     boundary .= 0
+#     nxmid = 101
+#     nymid = 101
+#     radius = 10
+#     for i=1:nx
+#         for j=1:ny
+#             if sqrt((i-nxmid)^2 + (j-nymid)^2) <= radius 
+#                 boundary[i,j] = 1
+#             end 
+#         end 
+#     end 
 
-    nxmid = 50
-    nymid = 101
-    radius = 10
-    for i=1:nx
-        for j=1:ny
-            if sqrt((i-nxmid)^2 + (j-nymid)^2) <= radius 
-                boundary[i,j] = 1
-            end 
-        end 
-    end 
+#     nxmid = 50
+#     nymid = 101
+#     radius = 10
+#     for i=1:nx
+#         for j=1:ny
+#             if sqrt((i-nxmid)^2 + (j-nymid)^2) <= radius 
+#                 boundary[i,j] = 1
+#             end 
+#         end 
+#     end 
 
-    nxmid = 101
-    nymid = 50
-    radius = 10
-    for i=1:nx
-        for j=1:ny
-            if sqrt((i-nxmid)^2 + (j-nymid)^2) <= radius 
-                boundary[i,j] = 1
-            end 
-        end 
-    end 
+#     nxmid = 101
+#     nymid = 50
+#     radius = 10
+#     for i=1:nx
+#         for j=1:ny
+#             if sqrt((i-nxmid)^2 + (j-nymid)^2) <= radius 
+#                 boundary[i,j] = 1
+#             end 
+#         end 
+#     end 
 
-    # Evaluate and visualize model
-    @time model_setup("composite",boundary)
-end 
+#     # Evaluate and visualize model
+#     @time model_setup("composite",boundary)
+# end 
 
-begin
-    # Square in the domain
-    boundary = BitMatrix(undef,nx+1,ny+1)
-    boundary .= 0
-    xstart = 51
-    ystart = 51
-    for i=1:50
-        for j=1:50
-            boundary[xstart+i,ystart+j]=1.0 
-        end 
-    end 
+# begin
+#     # Square in the domain
+#     boundary = BitMatrix(undef,nx+1,ny+1)
+#     boundary .= 0
+#     xstart = 51
+#     ystart = 51
+#     for i=1:50
+#         for j=1:50
+#             boundary[xstart+i,ystart+j]=1.0 
+#         end 
+#     end 
 
-    # Evaluate and visualize model
-    @time model_setup("square",boundary)
-end 
+#     # Evaluate and visualize model
+#     @time model_setup("square",boundary)
+# end 
 
-begin
-    # Square in the domain
-    boundary = BitMatrix(undef,nx+1,ny+1)
-    boundary .= 0
-    boundary[1,:] .= 1
-    boundary[end,:] .= 1
-    boundary[:,1] .= 1
-    boundary[:,end] .= 1 
+# begin
+#     # Square in the domain
+#     boundary = BitMatrix(undef,nx+1,ny+1)
+#     boundary .= 0
+#     boundary[1,:] .= 1
+#     boundary[end,:] .= 1
+#     boundary[:,1] .= 1
+#     boundary[:,end] .= 1 
 
-    # Evaluate and visualize model
-    @time model_setup("empty",boundary)
-end 
+#     # Evaluate and visualize model
+#     @time model_setup("empty",boundary)
+# end 

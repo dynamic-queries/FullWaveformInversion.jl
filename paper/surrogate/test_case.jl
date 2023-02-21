@@ -1,4 +1,6 @@
 using HDF5
+using Plots
+using Measures
 
 # Get the defect
 filename = "consolidated/static/BOUNDARY"
@@ -15,8 +17,9 @@ for i=1:ntsteps
     push!(actual_sols,arr)
 end
 
+
 # Sample the full waveforms
-xsensors = Vector(5:20:196)
+xsensors = Vector(5:21:196)
 Uactual = zeros(length(xsensors),ntsteps)
 for i=1:ntsteps
     Uactual[:,i] = actual_sols[i][xsensors,3]

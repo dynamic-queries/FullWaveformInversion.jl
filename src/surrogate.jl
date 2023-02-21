@@ -26,7 +26,7 @@ mutable struct SurrogateModel
         Y = reshape([yi for _ in x for yi in y],(length(x),length(y)))
 
         # Sensor locations
-        xsensors = Vector(5:floor(Int,(length(x)-5)/8):length(x))
+        xsensors = Vector(5:floor(Int,(length(x)-5)/9):length(x))
         ysensors = 3*ones(Int,length(xsensors))
 
         # Cache
